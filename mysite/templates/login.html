@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="/static/commons.css">
+</head>
+<body>
+    <h1> 用户登录</h1>
+    <p>输入用户密码</p>
+    <form method="POST" action="/login/">
+    <input type="text"name="user">
+    <input type="password"name="pwd">
+    <input type="submit"value="登录">
+        {{msg}}
+    </form>
+</body>
+</html>
