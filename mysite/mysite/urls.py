@@ -16,34 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import url
-import requests
+from app01 import views
 
-from django.shortcuts import HttpResponse,render,redirect
-def login(request):
-    #return HttpResponse('login.html')
-    #print(request.method)
-    if request.method=='GET':
 
-        return render(request,'login.html')
-    else:
-        u= request.POST.get('user')
-        p= request.POST.get('pwd')
-        print(u,p)
-        if u=='root' and p=='123456':
-            return redirect('/index/')
-        else:
-            return render(request,'login.html',{'msg':'123456'})
-def index(request):
-    return render(
-        request,'index.html',
-        {
-            'name':'alex',
-            'users':['123','123'],
-            'user_dict':{'k1':'v1','k2':'v2'},
-        }
-    )
 urlpatterns = [
     ##url(r'^admin/', admin.site.urls),
-    url(r'login/', login),
-    url(r'index',index),
+    url(r'login/', views.login),
+    url(r'index',views.index),
+    url(r'classes',views.classes),
 ]
