@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>输入表格</title>
+</head>
+<body>
+    <h1>班级列表</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>名称</th>
+            </tr>
+        </thead>
+    </table>
+    <tbody>
+        {%for row in classes_list%}
+                <td>{row.id}</td>
+                <td>{{row.title}}</td>
+        {% endfor %}
+    </tbody>
+</body>
+</html>
