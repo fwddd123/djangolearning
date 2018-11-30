@@ -23,8 +23,14 @@ urlpatterns = [
     ##url(r'^admin/', admin.site.urls),
     url(r'login/', views.login),
     url(r'index',views.index),
+    url(r'edit_student/',views.edit_student),
     url(r'classes/',views.classes),
+    url(r'new_student/', views.new_student),
     url(r'new',views.new),
     url(r'del_class',views.del_class),
-    url(r'edit_class/',views.edit_class)
+    url(r'edit_class/',views.edit_class),
+    url(r'student/',views.student),
+    url(r'modal_add_class',views.modal_add_class)
+
+
 ]

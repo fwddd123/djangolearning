@@ -3,22 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <title>输入表格</title>
+    <style>
+
+        .hide{
+            display:none;
+
+        }
+        .shadow{
+            position:fixed;
+            left:0;
+            right:0;
+            top:0;
+            bottom:0;
+            background-color:black;
+            opacity:0.4;
+            z-index:999;
+
+        }
+        .modal{
+            z-index:1000;
+            position:fixed;
+            left:50%;
+            top:50%;
+            height:300px;
+            width:400px;
+            background-color:white;
+            margin-left:-200px;
+            margin-top:-150px;
+             }
+
+    </style>
+
 </head>
 <body>
     <h1>班级列表</h1>
+    <div>
+        <a href="/new/"> 添加班级</a>
+        <a onclick="showModal()">对话框添加</a>
+    </div>
     <table border="1">
         <thead>
+
             <tr>
                 <th>id</th>
                 <th>名称</th>
+                <th>操作</th>
             </tr>
         </thead>
+        <tbody>
+            {% for row in classes_list %}
+            <tr>
+                    <td>{{row.id}}</td>
+                    <td>{{row.title}}</td>
+                    <td>
+                        <a href="/del_class/?nid={{row.id}}">删除</a>
+                         |<a href="/edit_class/?nid={{row.id}}">编辑</a>
+                    </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-    <tbody>
-        {%for row in classes_list%}
-                <td>{row.id}</td>
-                <td>{{row.title}}</td>
-        {% endfor %}
-    </tbody>
+    <div id='shadow'class="shadow hide">
+    </div>
+    <div id ='modal' class="modal hide">
+
+        <p>
+            <input type="text" id="title">
+            <input type="button" value="提交" onclick="AjaxSend()">
+
+        </p>
+
+    </div>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        function showModal(){
+            document.getElementById('shadow').classList.remove('hide');
+            document.getElementById('modal').classList.remove('hide');
+        }
+        function AjaxSend(){
+            $.ajax({
+                url:'/modal_add_class/',
+                type:'POST',
+                data:{'title':$("#title").val()},
+                success:function(data){
+                    console.log(data);
+                if(data=='ok'){
+                    alert('添加成功')
+                }else{
+                    alert('添加不陈宫')
+                }
+                }
+
+            })
+        }
+
+    </script>
+
 </body>
 </html>
