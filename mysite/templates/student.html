@@ -3,11 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>输入表格</title>
+    <style>
+        .hide{
+            display:none;
+
+        }
+        .shadow{
+            position:fixed;
+            left:0;
+            right:0;
+            top:0;
+            bottom:0;
+            background-color:black;
+            opacity:0.4;
+            z-index:999;
+
+        }
+        .modal{
+            z-index:1000;
+            position:fixed;
+            left:50%;
+            top:50%;
+            height:300px;
+            width:400px;
+            background-color:white;
+            margin-left:-200px;
+            margin-top:-150px;
+             }
+    </style>
 </head>
 <body>
     <h1>班级列表</h1>
     <div>
         <a href="/new_student/"> 添加学生</a>
+        <a id="addModal"> 添加学生对话框</a>
+
+    </div>
+    <div id="shadow" class="shadow hide">
+
+    </div>
+    <div id="modal" class="modal hide">
+         <p>
+             <input type="text" id="title" placeholder="姓名">
+            <input type="button" value="提交" onclick="AjaxSend()"><span id="errormsg"></span>
+            <input type="button" value="取消" onclick="cancleModal()">
+         </p>
+             <select id="classid">
+                 {%for row in student_list%}
+                 <option name="name" value={row.id}">{{row.title}}</option>
+                 {%endfor%}
+             </select>
+
     </div>
     <table border="1">
         <thead>
@@ -34,5 +80,14 @@
             {% endfor %}
         </tbody>
     </table>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('#addModal').click(function(){
+                alert(123)
+            })
+
+        })
+    </script>
 </body>
 </html>

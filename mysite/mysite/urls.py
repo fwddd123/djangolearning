@@ -21,8 +21,10 @@ from app01 import views
 
 urlpatterns = [
     ##url(r'^admin/', admin.site.urls),
+    url(r'modal_edit_class',views.modal_edit_class),
     url(r'login/', views.login),
     url(r'index',views.index),
+    url(r'modal_new_student/', views.modal_new_student),
     url(r'edit_student/',views.edit_student),
     url(r'classes/',views.classes),
     url(r'new_student/', views.new_student),
@@ -30,7 +32,11 @@ urlpatterns = [
     url(r'del_class',views.del_class),
     url(r'edit_class/',views.edit_class),
     url(r'student/',views.student),
-    url(r'modal_add_class',views.modal_add_class)
+
+    url(r'modal_add_class',views.modal_add_class),
+
+
+
 
 
 ]

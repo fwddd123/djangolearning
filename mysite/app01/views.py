@@ -3,6 +3,7 @@ import requests
 
 from django.shortcuts import HttpResponse,render,redirect
 import requests
+import json
 import pymysql
 from utils import sqlhelper
 def classes(request):
@@ -162,3 +163,26 @@ def modal_add_class(request):
         return HttpResponse('ok')
     else:
         return HttpResponse('buok')
+def modal_edit_class(request):
+    ret ={'status':True,'message':None}
+    try:
+        nid = request.POST.get('nid')
+        content = request.POST.get('content')
+
+        sqlhelper.modify('update test.classes1 set title=%s where id=%s',[content,nid,])
+    except Exception as e:
+        ret['status'] = False
+        ret['message'] = str(e)
+    return HttpResponse(json.dumps(ret))
+
+def modal_new_student(request):
+    ret = {'status': True, 'message': None}
+    try:
+        name = request.POST.get('title')
+
+
+        sqlhelper.modify('insert into student(name,class) value(%s,%s)', [name,classid,])
+    except Exception as e:
+        ret['status'] = False
+        ret['message'] = str(e)
+    return HttpResponse(json.dumps(ret))
