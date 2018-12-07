@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>输入表格</title>
+    <style>
+
+        .hide{
+            display:none;
+
+        }
+        .shadow{
+            position:fixed;
+            left:0;
+            right:0;
+            top:0;
+            bottom:0;
+            background-color:black;
+            opacity:0.4;
+            z-index:999;
+
+        }
+        .modal{
+            z-index:1000;
+            position:fixed;
+            left:50%;
+            top:50%;
+            height:300px;
+            width:400px;
+            background-color:white;
+            margin-left:-200px;
+            margin-top:-150px;
+             }
+    </style>
+
+</head>
+<body>
+    <h1>老师列表</h1>
+    <div>
+        <a href="/new/"> 添加班级</a>
+        <a onclick="showModal()">对话框添加</a>
+    </div>
+    <table border="1">
+        <thead>
+
+            <tr>
+                <th>id</th>
+                <th>老师名称</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in teacher_list %}
+            <tr>
+                    <td>{{row.id}}</td>
+                    <td>{{row.name}}</td>
+                    <td>
+                        <a href="/del_class/?nid={{row.id}}">删除</a>
+                        |<a onclick="modalEdit(this)">对话框编辑</a>
+                         |<a href="/edit_class/?nid={{row.id}}">编辑</a>
+                    </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div id='shadow'class="shadow hide">
+    </div>
+    <div id ='modal' class="modal hide">
+
+        <p>
+            <input type="text" id="title">
+            <input type="button" value="提交" onclick="AjaxSend()"><span id="errormsg"></span>
+            <input type="button" value="取消" onclick="cancleModal()">
+        </p>
+
+    </div>
+    <div id ='editmodal' class="modal hide">
+        <h3>编辑框</h3>
+        <p>
+            <input type="text" id="editid" name="id" style="display:none"/>
+            <input type="text" name="title" id="edittitle"/>
+        </p>
+            <input type="button" value="提交" onclick="editAjaxSend();"/><span id="errormsg"></span>
+            <input type="button" value="取消" onclick="cancleModal();"/>
+
+
+    </div>
+
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        function cancleModal(){
+            document.getElementById('shadow').classList.add('hide');
+            document.getElementById('modal').classList.add('hide');
+            document.getElementById('editmodal').classList.add('hide');
+        }
+        function modalEdit(ths){
+            document.getElementById('shadow').classList.remove('hide');
+            document.getElementById('editmodal').classList.remove('hide');
+
+            var row = $(ths).parent().prevAll();
+            var content1 = $(row[0]).text();
+            $('#edittitle').val(content1);
+            var contentid = $(row[1]).text();
+            $('#editid').val(contentid);
+            console.log(row)
+
+
+
+        }
+        function showModal(){
+            document.getElementById('shadow').classList.remove('hide');
+            document.getElementById('modal').classList.remove('hide');
+        }
+        function AjaxSend(){
+            $.ajax({
+                url:'/modal_add_class/',
+                type:'POST',
+                data:{'title':$("#title").val()},
+                success:function(data){
+
+                if(data=='ok'){
+                    location.href=/classes/
+                }else{
+                    $('#errormsg').text(data)
+                }
+                }
+
+            })
+        }
+        function editAjaxSend(){
+            var nid = $('#editid').val();
+            var content = $('#edittitle').val();
+            $.ajax({
+                url:'/modal_edit_class/',
+                type:'POST',
+                data:{'nid':nid,'content':content},
+                success:function(arg){
+                    arg=JSON.parse(arg);
+                    if(arg.status){
+                        location.reload()
+                    }else{
+                        alert(arg.message)
+                    }
+                    }
+
+
+            })
+        }
+    </script>
+
+</body>
+</html>

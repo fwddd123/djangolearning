@@ -178,11 +178,14 @@ def modal_edit_class(request):
 def modal_new_student(request):
     ret = {'status': True, 'message': None}
     try:
-        name = request.POST.get('title')
+        name = request.POST.get('name')
+        classid = request.POST.get('classid')
 
-
-        sqlhelper.modify('insert into student(name,class) value(%s,%s)', [name,classid,])
+        sqlhelper.modify('insert into test.student(name,class) value(%s,%s)', [name,classid,])
     except Exception as e:
         ret['status'] = False
         ret['message'] = str(e)
     return HttpResponse(json.dumps(ret))
+def teachers(request):
+    teachers_list=sqlhelper.get_list('select id,name from test.teacher',[])
+    return render(request,'teachers.html',{'teacher_list':teachers_list})

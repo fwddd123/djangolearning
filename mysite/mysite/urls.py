@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'student/',views.student),
 
     url(r'modal_add_class',views.modal_add_class),
+    url(r'teachers/', views.teachers),
 
 
 

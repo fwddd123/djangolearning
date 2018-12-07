@@ -44,13 +44,13 @@
     </div>
     <div id="modal" class="modal hide">
          <p>
-             <input type="text" id="title" placeholder="姓名">
-            <input type="button" value="提交" onclick="AjaxSend()"><span id="errormsg"></span>
+             <input type="text" id="addName" placeholder="姓名">
+            <input id="btnAdd" type="button" value="添加" ><span id="adderror"></span>
             <input type="button" value="取消" onclick="cancleModal()">
          </p>
              <select id="classid">
                  {%for row in student_list%}
-                 <option name="name" value={row.id}">{{row.title}}</option>
+                 <option  name="name" value="{{row.id}}">{{row.title}}</option>
                  {%endfor%}
              </select>
 
@@ -73,7 +73,8 @@
                     <td>{{row.name}}</td>
                     <td>{{row.title}}</td>
                     <td>
-                        <a href="/del_class/?nid={{row.id}}">删除</a>
+                        <a href="/del_class/?nid={{row.id}}">删除</a>|
+                        <a >对话框编辑</a>
                          |<a href="/edit_student/?nid={{row.id}}">编辑</a>
                     </td>
             </tr>
@@ -84,9 +85,23 @@
     <script type="text/javascript">
         $(function(){
             $('#addModal').click(function(){
-                alert(123)
+                $('#shadow,#modal').removeClass('hide');
+            });
+            $('#btnAdd').click(function(){
+                $.ajax({
+                    url:'/modal_new_student/',
+                    type:'POST',
+                    data:{'name':$('#addName').val(),'classid':$('#classid').val()},
+                    success:function(arg){
+                        arg=JSON.parse(arg);
+                    if(arg.status){
+                        location.reload();
+                    }else{
+                        $('#adderror').text(arg.message);
+                    }
+                    }
+                })
             })
-
         })
     </script>
 </body>
